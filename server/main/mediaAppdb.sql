@@ -4,7 +4,7 @@ CREATE TABLE users (
   uid SERIAL PRIMARY KEY,
   username VARCHAR(255) UNIQUE,
   email VARCHAR(255) UNIQUE,
-  email_verified BOOLEAN,
+  email_verified BOOLEAN DEFAULT false,
   first_name VARCHAR(255),
   last_name VARCHAR(255),
   date_created TIMESTAMP DEFAULT Now(),
