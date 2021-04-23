@@ -1,0 +1,1 @@
+export { selectCurrentUser } from './userSelectors';
