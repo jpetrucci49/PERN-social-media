@@ -3,9 +3,9 @@ var router = express.Router();
 var pool = require('../main/db');
 
 // Create a user
-router.post('/api/users/add', async (req, res, next) => {
+router.post('/api/signup', async (req, res, next) => {
   try {
-    const { username, email } = req.body.profile;
+    const { username, email } = req.body;
     await pool.query(
       `INSERT INTO users(username, email)
               VALUES($1, $2)`,
@@ -16,12 +16,12 @@ router.post('/api/users/add', async (req, res, next) => {
       },
     );
   } catch (err) {
-    console.error(err);
+    throw new Error(err);
   }
 });
 
 /* GET a user. */
-router.get('/api/users/:uid', async (req, res, next) => {
+router.get('/api/get/users/:uid', async (req, res, next) => {
   try {
     const { uid } = req.params;
     await pool.query(
