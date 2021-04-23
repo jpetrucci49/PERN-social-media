@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Switch, Route } from 'react-router-dom';
 
+import { LoginRegisterModal } from './components';
 import './App.css';
 
 const App = () => {
@@ -17,7 +19,17 @@ const App = () => {
     getRes();
   }, [greeting]);
 
-  return <div className='App'>Hello {greeting}</div>;
+  return (
+    <div className='App'>
+      Hello {greeting}
+      <Switch>
+        <Route exact path='/'>
+          You are not Currently logged in. Please {<LoginRegisterModal formVersion='login' />} or{' '}
+          {<LoginRegisterModal formVersion='register' />}
+        </Route>
+      </Switch>
+    </div>
+  );
 };
 
 export default App;
