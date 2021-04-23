@@ -4,12 +4,15 @@ CREATE TABLE users (
   uid SERIAL PRIMARY KEY,
   username VARCHAR(255) UNIQUE,
   email VARCHAR(255) UNIQUE,
+  password VARCHAR(255),
   email_verified BOOLEAN DEFAULT false,
   first_name VARCHAR(255),
   last_name VARCHAR(255),
   date_created TIMESTAMP DEFAULT Now(),
   date_modified TIMESTAMP DEFAULT Now(),
-  last_login TIMESTAMP DEFAULT Now()
+  last_login TIMESTAMP DEFAULT Now(),
+  resettoken VARCHAR(255),
+  resettokentime VARCHAR(255)
 );
 
 CREATE TABLE posts (
