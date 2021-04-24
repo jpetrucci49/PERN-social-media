@@ -24,8 +24,9 @@ export const signUpStart = ({
   password,
   email,
 }) => async (dispatch) => {
+  dispatch({ type: UserActionTypes.SIGN_UP_START });
   await api
-    .post('/post/users', { username, first_name, last_name, password, email })
+    .post('/signup', { username, first_name, last_name, password, email })
     .then((res) => dispatch(emailSignInStart({ email, password })))
     .catch((err) => {
       dispatch(signUpFailure(err));

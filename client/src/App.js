@@ -10,7 +10,7 @@ const App = () => {
   useEffect(() => {
     const getRes = async () => {
       await axios
-        .get('/hello')
+        .get(process.env.REACT_APP_DB_URL + '/hello')
         .then((res) => setGreeting(res.data))
         .catch((err) => {
           throw new Error(err);
