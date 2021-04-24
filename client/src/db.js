@@ -1,16 +1,15 @@
 import axios from 'axios';
-require('dotenv').config();
 
 const instance = axios.create({
-  baseURL: `/api`,
+  baseURL: `${process.env.REACT_APP_DB_URL}/api`,
 });
 
 instance.interceptors.request.use((config) => {
   config.params = {
     // add your default ones
-    part: 'part',
-    maxResults: 5,
-    key: 'key',
+    // part: 'part',
+    // maxResults: 5,
+    // key: 'key',
     // spread the request's params
     ...config.params,
   };
