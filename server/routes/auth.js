@@ -2,10 +2,34 @@ const db = require('../main/db.js');
 const passport = require('passport');
 const express = require('express');
 
-const helpers = require('./utils');
-const { setToken, hashPassword } = helpers;
+const { setToken, hashPassword, requireAuth } = require('./utils');
 
 const router = express.Router();
+
+router.get('/private', requireAuth, (req, res) => {
+  res.send('Accessed Private Endpoint');
+});
+
+router.post('/api/login', (req, res) => {
+  oPts = {
+    session: false,
+  };
+  passport.authenticate('local', oPts, (error, user, info) => {
+    if (error) res.status(500).send(error);
+    if (info) res.send(info);
+    if (!user && !info) res.send('Authentication Failed');
+    if (user) {
+      const { id, username, email } = user.rows[0];
+      user = {
+        id,
+        username,
+        email,
+      };
+      //send jwt token as login
+      res.send({ token: setToken(user) });
+    }
+  })(req, res);
+});
 
 router.post('/api/signup', (req, res) => {
   let { password, username, email, first_name, last_name } = req.body;
