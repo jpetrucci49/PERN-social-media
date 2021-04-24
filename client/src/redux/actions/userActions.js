@@ -2,10 +2,13 @@ import { UserActionTypes } from '../types';
 
 import api from '../../db';
 
-export const emailSignInStart = (credentials) => ({
-  type: UserActionTypes.EMAIL_SIGN_IN_START,
-  payload: credentials,
-});
+export const emailSignInStart = ({ email, password }) => async (dispatch) => {
+  dispatch({ type: UserActionTypes.EMAIL_SIGN_IN_START });
+  await api
+    .post('/login', { email, password })
+    .then((res) => dispatch(signInSuccess(res.data)))
+    .catch((err) => dispatch(signInFailure(err)));
+};
 
 export const signInSuccess = (user) => ({
   type: UserActionTypes.SIGN_IN_SUCCESS,

@@ -66,25 +66,23 @@ const LoginRegisterModal = ({ emailSignInStart, signUpStart, formVersion }) => {
     initialValues: {
       email: '',
       password: '',
-      ...(isRegister
-        ? { confirmPassword: '', username: '', firstName: '', lastName: '', userName: '' }
-        : {}),
+      ...(isRegister ? { confirmPassword: '', username: '', firstName: '', lastName: '' } : {}),
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .required('Sorry, this is required')
-        .email('Sorry, this must be email format'),
       password: Yup.string()
         .required('Sorry, this is required')
         .min(6, 'Password must be at least 6 characters'),
       ...(isRegister
         ? {
+            email: Yup.string()
+              .required('Sorry, this is required')
+              .email('Sorry, this must be email format'),
             confirmPassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match'),
             firstName: Yup.string().required('Sorry, this is required'),
             lastName: Yup.string().required('Sorry, this is required'),
             username: Yup.string().required('Sorry, this is required'),
           }
-        : {}),
+        : { email: Yup.string().required('Sorry, this is required') }),
     }),
   };
 
@@ -163,15 +161,23 @@ const LoginRegisterModal = ({ emailSignInStart, signUpStart, formVersion }) => {
                           placeholder='Username'
                           className={classes.field}
                         />
+                        <CustomFormField
+                          hr
+                          name='email'
+                          type='email'
+                          placeholder='Email'
+                          className={classes.field}
+                        />
                       </Fragment>
-                    ) : null}
-                    <CustomFormField
-                      hr
-                      name='email'
-                      type='email'
-                      placeholder='Email'
-                      className={classes.field}
-                    />
+                    ) : (
+                      <CustomFormField
+                        hr
+                        name='email'
+                        type='text'
+                        placeholder='Email or Username'
+                        className={classes.field}
+                      />
+                    )}
                     <CustomFormField
                       hr
                       name='password'
