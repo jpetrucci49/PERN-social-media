@@ -1,9 +1,11 @@
 const express = require('express');
+const usersRouter = require('./users');
+const authRouter = require('./auth');
 
-const router = express.Router();
+const indexRouter = express.Router();
 
-router.get('/hello', (req, res) => {
+indexRouter.get('/hello', (req, res) => {
   res.json('world');
 });
 
-module.exports = router;
+module.exports = { indexRouter, usersRouter, authRouter };
