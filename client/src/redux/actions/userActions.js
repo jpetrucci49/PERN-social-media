@@ -10,9 +10,16 @@ export const emailSignInStart = ({ email, password }) => async (dispatch) => {
     .catch((err) => dispatch(signInFailure(err)));
 };
 
-export const signInSuccess = (user) => ({
+export const signInSuccess = ({
+  uid,
+  username,
+  email,
+  first_name: firstName,
+  last_name: lastName,
+  token,
+}) => ({
   type: UserActionTypes.SIGN_IN_SUCCESS,
-  payload: user,
+  payload: { uid, username, email, firstName, lastName, token },
 });
 
 export const signInFailure = (error) => ({
