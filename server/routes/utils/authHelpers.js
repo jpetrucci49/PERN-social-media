@@ -6,9 +6,24 @@ const setToken = (user) => {
   let opts = {
     expiresIn: '12h',
   };
-  let secret = process.env.SECRET;
+  let secret = process.env.TOKEN_SECRET;
 
   return jwt.sign(user, secret, opts);
+};
+
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+
+    req.user = user;
+
+    next();
+  });
 };
 
 const generateBytes = () =>
@@ -42,4 +57,5 @@ module.exports = {
   hashPassword,
   generateBytes,
   setToken,
+  verifyToken,
 };
