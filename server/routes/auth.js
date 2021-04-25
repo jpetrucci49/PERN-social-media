@@ -34,28 +34,28 @@ router.post('/api/login', (req, res) => {
 });
 
 router.post('/api/signup', (req, res) => {
-  let { password, username, email, first_name, last_name } = req.body;
+  const { password, username, email, first_name, last_name } = req.body;
 
   //check if email exists
-  let query1 = `SELECT * FROM users
+  const query1 = `SELECT * FROM users
                 WHERE email=$1`;
 
   // query1 takes email
-  let values1 = [email];
+  const values1 = [email];
 
   //if email not found insert into database
-  let query2 = `INSERT INTO users (username, password, email, first_name, last_name)
+  const query2 = `INSERT INTO users (username, password, email, first_name, last_name)
                 VALUES($1, $2, $3, $4, $5)
                 RETURNING uid, username, email, first_name, last_name`;
 
   //signup user, called inside callback1
-  let callback2 = (q_err, q_res) => {
+  const callback2 = (q_err, q_res) => {
     if (q_err) res.status(500).send(q_err);
     //send back user id and info after signup
     if (q_res) {
-      let { uid, username, email, first_name, last_name } = q_res.rows[0];
+      const { uid, username, email, first_name, last_name } = q_res.rows[0];
 
-      let user = {
+      const user = {
         uid,
         username,
         email,
@@ -64,12 +64,12 @@ router.post('/api/signup', (req, res) => {
       };
 
       //jwt token login after signup
-      res.send({ token: setToken(user) });
+      res.send({ ...user, token: setToken(user) });
     }
   };
 
   //Check if user exists callback
-  let callback1 = (q_err, q_res) => {
+  const callback1 = (q_err, q_res) => {
     if (q_err) res.status(500).send(q_err);
     if (q_res.rows.length != 0) res.send('User Already Exists');
     if (q_res.rows.length === 0) {
@@ -82,7 +82,7 @@ router.post('/api/signup', (req, res) => {
              hash is generated before executing,
              and takes 5 values, as listed.
           */
-        let values2 = [username, password_hash, email, first_name, last_name];
+        const values2 = [username, password_hash, email, first_name, last_name];
         //signup user
         db.query(query2, values2, callback2);
       });
