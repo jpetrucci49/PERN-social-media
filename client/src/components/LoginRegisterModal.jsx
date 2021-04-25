@@ -77,7 +77,10 @@ const LoginRegisterModal = ({ emailSignInStart, signUpStart, formVersion }) => {
             email: Yup.string()
               .required('Sorry, this is required')
               .email('Sorry, this must be email format'),
-            confirmPassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match'),
+            confirmPassword: Yup.string()
+              .required('Sorry, this is required')
+              .min(6, 'Password must be at least 6 characters')
+              .oneOf([Yup.ref('password')], 'Passwords must match'),
             firstName: Yup.string().required('Sorry, this is required'),
             lastName: Yup.string().required('Sorry, this is required'),
             username: Yup.string().required('Sorry, this is required'),
