@@ -10,7 +10,7 @@ passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.SECRET,
+      secretOrKey: process.env.TOKEN_SECRET,
     },
     (jwtPayload, cb) => {
       let id = [jwtPayload.id];
