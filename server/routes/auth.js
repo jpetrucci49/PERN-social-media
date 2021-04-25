@@ -19,14 +19,16 @@ router.post('/api/login', (req, res) => {
     if (info) res.send(info);
     if (!user && !info) res.send('Authentication Failed');
     if (user) {
-      const { id, username, email } = user.rows[0];
-      user = {
-        id,
+      const { uid, username, email, first_name, last_name } = user.rows[0];
+      const userRes = {
+        uid,
         username,
         email,
+        first_name,
+        last_name,
       };
       //send jwt token as login
-      res.send({ token: setToken(user) });
+      res.send({ ...userRes, token: setToken(userRes) });
     }
   })(req, res);
 });
