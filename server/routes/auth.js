@@ -15,9 +15,15 @@ router.post('/api/login', (req, res) => {
     session: false,
   };
   passport.authenticate('local', oPts, (error, user, info) => {
-    if (error) res.status(500).send(error);
-    if (info) res.send(info);
-    if (!user && !info) res.send('Authentication Failed');
+    if (error) {
+      res.status(500).send(error);
+    }
+    if (info) {
+      res.send(info);
+    }
+    if (!user && !info) {
+      res.send('Authentication Failed');
+    }
     if (user) {
       const { uid, username, email, first_name, last_name } = user.rows[0];
       const userRes = {
@@ -50,7 +56,9 @@ router.post('/api/signup', (req, res) => {
 
   //signup user, called inside callback1
   const callback2 = (q_err, q_res) => {
-    if (q_err) res.status(500).send(q_err);
+    if (q_err) {
+      res.status(500).send(q_err);
+    }
     //send back user id and info after signup
     if (q_res) {
       const { uid, username, email, first_name, last_name } = q_res.rows[0];
@@ -70,8 +78,12 @@ router.post('/api/signup', (req, res) => {
 
   //Check if user exists callback
   const callback1 = (q_err, q_res) => {
-    if (q_err) res.status(500).send(q_err);
-    if (q_res.rows.length != 0) res.send('User Already Exists');
+    if (q_err) {
+      res.status(500).send(q_err);
+    }
+    if (q_res.rows.length != 0) {
+      res.status(400).send('User Already Exists');
+    }
     if (q_res.rows.length === 0) {
       //if email not found, create user in db
       //create password hash before saving to db
