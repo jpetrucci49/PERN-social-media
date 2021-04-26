@@ -6,7 +6,7 @@ const passport = require('passport');
 require('dotenv').config({ path: __dirname + '/.env' });
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const { indexRouter, usersRouter, authRouter } = require('./routes');
+const { indexRouter, usersRouter, authRouter, postRouter } = require('./routes');
 
 const app = express();
 
@@ -20,4 +20,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/', authRouter);
+app.use('/', postRouter);
 module.exports = app;
