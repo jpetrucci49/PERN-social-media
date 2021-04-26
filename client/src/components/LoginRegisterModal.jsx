@@ -138,7 +138,7 @@ const LoginRegisterModal = ({ emailSignInStart, signUpStart, formVersion }) => {
               }}
               validateOnMount={true}
             >
-              {({ isValid }) => {
+              {({ isValid, setFieldValue, setFieldError }) => {
                 return (
                   <Form className={classes.form}>
                     {isRegister ? (
@@ -158,6 +158,9 @@ const LoginRegisterModal = ({ emailSignInStart, signUpStart, formVersion }) => {
                           className={classes.field}
                         />
                         <CustomFormField
+                          shouldValidate
+                          setFieldValue={setFieldValue}
+                          setFieldError={setFieldError}
                           hr
                           name='username'
                           type='text'
@@ -165,6 +168,9 @@ const LoginRegisterModal = ({ emailSignInStart, signUpStart, formVersion }) => {
                           className={classes.field}
                         />
                         <CustomFormField
+                          shouldValidate
+                          setFieldValue={setFieldValue}
+                          setFieldError={setFieldError}
                           hr
                           name='email'
                           type='email'
